@@ -485,33 +485,3 @@ let monogrammaMemoiz = function (): Function {
       }
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  interface Function {
-      
-      myBind<T>(obj: object, ...arg: Array<T>): Function;
-  }
-  
-  Function.prototype.myBind = function <T>(obj: object, ...arg: Array<T>): Function {
-  let copyObject: Record<string | number | symbol, any> = Object.create(obj);
-  
-      copyObject['func'] = this as Function;
-      
-      return function <T> (...arg2: Array<T>): T {
-        return copyObject['func'](...arg, ...arg2) ;
-      }
-  }
-  
