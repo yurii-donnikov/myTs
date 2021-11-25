@@ -36,3 +36,10 @@ Array.prototype.myForEach = function (calcForEach) {
         calcForEach(this[i], i, this);
     }
 };
+Array.prototype.myMap = function (callback) {
+    var resultArray = [];
+    for (var i = 0; i < this.length; i++) {
+        resultArray.push(callback(this[i], i, this));
+    }
+    return resultArray;
+};

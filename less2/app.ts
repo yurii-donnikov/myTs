@@ -19,10 +19,18 @@ Function.prototype.myCall = function <T>(obj: object, ...arg: Array<T>): T{
   
 interface Array<T> {
     myForEach<K>(calcForEach: T): void;
+    myMap<K>(calcForEach: T): any[];
 }
 
 Array.prototype.myForEach = function <K> (calcForEach: Function): void {
     for (let i: number = 0; i < this.length; i++) {
         calcForEach(this[i], i, this);
     }
+}
+Array.prototype.myMap = function <K>(callback: Function): any[] {
+    let resultArray: any[] = [];
+    for (let i = 0; i < this.length; i++) {
+        resultArray.push(callback(this[i], i, this));
+    }
+    return resultArray;
 }
