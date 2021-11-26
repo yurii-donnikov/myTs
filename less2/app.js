@@ -43,3 +43,54 @@ Array.prototype.myMap = function (callback) {
     }
     return resultArray;
 };
+Array.prototype.myFilter = function (funcFilter) {
+    var resultArray = [];
+    for (var i = 0; i < this.length; i++) {
+        if (funcFilter(this[i], i, this) === true) {
+            resultArray.push(this[i]);
+        }
+    }
+    return resultArray;
+};
+Array.prototype.myReduce = function (callback, startElement) {
+    var result;
+    if (startElement === undefined || startElement === 0) {
+        result = 0;
+    }
+    else
+        result = startElement;
+    for (var i = 0; i < this.length; i++) {
+        result = callback(result, this[i]);
+    }
+    return result;
+};
+Array.prototype.sortSelection = function (callback) {
+    var array = this;
+    for (var i = 0; i < array.length; i++) {
+        var resultElement = array[i];
+        var index = 0;
+        for (var j = i + 1; j < array.length; j++) {
+            if (callback(resultElement, array[j])) {
+                resultElement = array[j];
+                index = j;
+            }
+        }
+        if (index) {
+            var temp = array[i];
+            array[i] = resultElement;
+            array[index] = temp;
+        }
+    }
+};
+Array.prototype.sortBubble = function (callback) {
+    var array = this;
+    for (var i = array.length - 1; i > 0; i--) {
+        for (var j = 0; j < i; j++) {
+            if (callback(array[j], array[j + 1])) {
+                var copyElement = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = copyElement;
+            }
+        }
+    }
+};
