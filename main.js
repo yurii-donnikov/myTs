@@ -5,3 +5,12 @@ Function.prototype.myBind = function (object, ...arg) {
         return copyObject.func(...arg, ...arg2)
     }
 }
+
+
+let add = 24424
+       
+вавп
+
+function test() {
+        console.log(121313) 
+    }
