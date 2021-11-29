@@ -940,7 +940,8 @@ interface Employee {
     // ============================================https://habr.com/ru/post/455473/
 
 
-    interface Employee {
+
+    interface Employees {
         name: string,
         position: string,
         isLeader: boolean,
@@ -948,72 +949,37 @@ interface Employee {
         isWorks: boolean,
         department: number,
     }
+    class Employee {
+        name: string;
+        position: string;
+        isLeader: boolean;
+        salary: number;
+        isWorks: boolean;
+        department: number;
+        constructor(dataEmployee: Employees){
+            this.name = dataEmployee.name;
+            this.position = dataEmployee.position;
+            this.isLeader = dataEmployee.isLeader;
+            this.salary = dataEmployee.salary;
+            this.isWorks = dataEmployee.isWorks;
+            this.department = dataEmployee.department;
+        }
+    }
+
+    interface Departments {
+        number: number,
+        name: string,
+    }
+    class Departments {
+        number: number;
+        name: string;
+        constructor(dataDepartments: Departments){
+            this.number = dataDepartments.number;
+            this.name = dataDepartments.name;
+        }
+    }
     
-    
-    // let arrayEmployee: Employee[] = [
-    //         {
-    //           name:'maks',
-    //           position: 'barman',
-    //           isLeader: false,
-    //           salary: 100,
-    //           isWorks: true,
-    //           department: 1,
-    //         },
-    //         {
-    //           name:'oleg',
-    //           position: 'ofitsiant',
-    //           isLeader: false,
-    //           salary: 100,
-    //           isWorks: false,
-    //           department: 1,
-    //         },
-    //         {
-    //           name:'mari',
-    //           position: 'assistant-cook',
-    //           isLeader: false,
-    //           salary: 100,
-    //           isWorks: true,
-    //           department: 2,
-    //         },
-    //         {
-    //           name:'dima',
-    //           position: 'cleaner',
-    //           isLeader: false,
-    //           salary: 100,
-    //           isWorks: true,
-    //           department: 2,
-    //         },
-    //         {
-    //           name:'igor',
-    //           position: 'dessert cook',
-    //           isLeader: false,
-    //           salary: 150,
-    //           isWorks: false,
-    //           department: 3,
-    //         },
-    //         {
-    //           name:'Lexa',
-    //           position: 'dessert cook',
-    //           isLeader: false,
-    //           salary: 120,
-    //           isWorks: true,
-    //           department: 3,
-    //         }
-    // ]
-    let arrayDepartments: {[key: string]: number | string }[] =    [
-            {
-              number: 1,
-              name: 'hall'
-            },
-            {
-              number: 2,
-              name: 'cook'
-            },
-            {
-              number: 3,
-              name: 'dessert cook'
-            },
-    ];
+
     interface IRestauratn<T>{
         sumSalary(callback: Function): null | {[key: string]: number};
     }
@@ -1021,10 +987,14 @@ interface Employee {
     class Restaurant<P> implements IRestauratn<P> {
     
         employees: Employee[];
-        departments: {[key: string]: number | string }[];
+        departments: Departments[];
+
         constructor() {
-          this.employees = Employee[];
-          this.departments = arrayDepartments;
+          this.employees = [];
+          this.departments = [];
+        }
+        addEmployee(dataEmployee: Employee){
+            this.employees.push(dataEmployee)
         }
         
         sumSalary(callback: Function){
@@ -1032,10 +1002,7 @@ interface Employee {
           if(this.departments.length && this.employees.length) {
             this.employees.forEach((employee) => {
               if(callback(employee)){
-                  let elemn = employee.department
-                if(result[employee.department] !== null) {
-    
-                //if(`${employee.department}` in result) {
+                if(result[employee.department]) {
                   result[employee.department] += employee.salary;
                 } else {
                   result[employee.department] = employee.salary;
@@ -1138,255 +1105,16 @@ interface Employee {
         //   }
         //   return null;
         // }
-      }
-      //let restaurant = new Restaurant()
+    }
       
-    //   let mainBlock = document.querySelector('.mainBlock');
-    //   let cardBlock = document.createElement('div');
-    //   let buttonAddCard = document.createElement('div');
-    //   buttonAddCard.className = 'buttonAddCard';
-    //   buttonAddCard.innerText = 'add card';
-    //   cardBlock.className = 'cardBlock';
-    //   mainBlock.appendChild(cardBlock);
-    //   mainBlock.appendChild(buttonAddCard);
-    //   let changeEmployee;
-    //   let employeeCard;
-    //   let itemBlockInfo;
-    //   let employeeInfo;
-    //   let employeeProperty;
-    //   let eventTarget;
-    //   let buttonDelete;
-    //   let isFlag = false;
-    //   let popupWindow = mainBlock.appendChild(document.createElement('div'));
-    //   popupWindow.className = 'popupWindow';
-    //   let backgroundWindow = popupWindow.appendChild(document.createElement('div'));
-    //   backgroundWindow.className = 'backgroundWindow';
-    //   backgroundWindow.addEventListener('click', () => {
-    //     for(let i = 0; i < document.getElementsByClassName('inputInfo').length; i++){
-    //       document.getElementsByClassName('inputInfo')[i].value = '';
-    //     }
-    //     isFlag = false;
-    //     popupWindow.style = `display: none`;
-    //   })
-    //   let modalWindow = popupWindow.appendChild(document.createElement('div'));
-    //   modalWindow.className = 'modalWindow';
-    //   for(let props in restaurant.employees[0]) {
-    //     if(props === 'isWorks') {
-    //       let inputRadioBlock = document.createElement('div');
-    //       inputRadioBlock.innerHTML = `<p>${props}</p>
-    //       <input type="radio" id="contactChoice1" name="isWorks" value="true">
-    //       <label for="contactChoice1">yes</label>
-    //       <input type="radio" id="contactChoice2" name="isWorks" value="false">
-    //       <label for="contactChoice2">no</label>`;
-    //       inputRadioBlock.className = 'inputInfo';
-    //       modalWindow.appendChild(inputRadioBlock);
-    //     } else {
-    //       if(props === 'isLeader') {
-    //         let inputRadioBlock = document.createElement('div');
-    //         inputRadioBlock.innerHTML = `<p>${props}</p>
-    //         <input type="radio" id="contactChoice3" name="isLeader" value="true" >
-    //         <label for="contactChoice3">yes</label>
-    //         <input type="radio" id="contactChoice4" name="isLeader" value="false">
-    //         <label for="contactChoice4">no</label>`;
-    //         inputRadioBlock.className = 'inputInfo';
-    //         modalWindow.appendChild(inputRadioBlock);
-    //       }
-    //       else{
-    //         let input = document.createElement('input');
-    //         input.type = 'text';
-    //         input.placeholder = props;
-    //         input.className = 'inputInfo';
-    //         modalWindow.appendChild(input);
-    //       }
-    //     }
-    //   }
-    //   let buttonSave = modalWindow.appendChild(document.createElement('div'));
-    //   buttonSave.innerText = 'SAVE';
-    //   buttonSave.className = 'buttonSave';
-    //   let indexBlockEmployee;
-      
-    //   function createCard () {
-    //     for(let i = 0; i < restaurant.employees.length; i++){
-    //       if(!cardBlock.children[i]) {
-    //         employeeCard = cardBlock.appendChild(document.createElement('div'));
-    //         employeeCard.className = 'employeeCard';
-    //         for(let item in restaurant.employees[i]) {
-    //           itemBlockInfo = employeeCard.appendChild(document.createElement('div'));
-    //           itemBlockInfo.className = 'itemBlockInfo';
-    //           employeeProperty = itemBlockInfo.appendChild(document.createElement('div'));
-    //           employeeInfo = itemBlockInfo.appendChild(document.createElement('div'));
-    //           employeeProperty.innerText = item;
-    //           employeeInfo.innerText = restaurant.employees[i][item];
-    //           employeeInfo.className = item;
-    //         }
-    //         let buttonChange = document.createElement('div');
-    //         buttonChange.innerText = 'change';
-    //         changeEmployee = employeeCard.appendChild(buttonChange);
-    //         changeEmployee.className = 'changeEmployee';
-    //         changeEmployee.addEventListener('click', () => {
-    //           popupWindow.style = `display: block`;
-    //           eventTarget = event.target;
-    //           isFlag = true;
-    //           for(let i = 0; i < cardBlock.children.length; i++){
-    //             if(eventTarget.parentNode === cardBlock.children[i]){
-    //               indexBlockEmployee = i;
-    //             }
-    //           }
-    //         })
-    //         let deleteCard = document.createElement('div');
-    //         deleteCard.innerText = 'delete';
-    //         deleteCard.className = 'buttonDelete';
-    //         buttonDelete = employeeCard.appendChild(deleteCard);
-    //         buttonDelete.addEventListener('click', () => {
-    //           let indexDeleteEmployee;
-    //           for(let i = 0; i < cardBlock.children.length; i++){
-    //             if(event.target.parentNode === cardBlock.children[i]){
-    //               indexDeleteEmployee = i;
-    //             }
-    //           }
-    //           restaurant.employees.splice(indexDeleteEmployee, 1);
-    //           event.target.parentNode.remove();
-    //         })
-    //       }
-    //     }
-    //   }
-    //   createCard ()
-      
-    //   buttonAddCard.addEventListener('click', () => {
-    //     popupWindow.style = `display: block`;
-    //   })
-      
-    //   buttonSave.addEventListener('click', () => {
-    //     changeCard();
-    //   })
-      
-    //   function changeCard () {
-    //     let elementInput = document.getElementsByClassName('inputInfo');
-    //     if(isFlag){
-    //       for(let i = 0; i < elementInput.length; i++) {
-    //         if(elementInput[i].children.length){
-    //           for(let j = 0; j < elementInput[i].children.length; j++) {
-    //             if(elementInput[i].children[j].checked) {
-    //               let elementInputRadio = elementInput[i].children[j].name;
-    //               restaurant.employees[indexBlockEmployee][elementInputRadio] = Boolean(elementInput[i].children[j].value === 'true');
-    //               eventTarget.parentElement.children[i].children[1].innerText = '' + elementInput[i].children[j].value;
-    //             }
-    //           }
-    //         } else {
-    //           if(elementInput[i].value !== '') {
-    //             let elementInputName = elementInput[i].placeholder;
-    //             if (elementInput[i].placeholder === 'salary' || elementInput[i].placeholder === 'department') {
-    //               restaurant.employees[indexBlockEmployee][elementInputName] = Number(elementInput[i].value);
-    //             } else {
-    //               restaurant.employees[indexBlockEmployee][elementInputName] = elementInput[i].value;
-    //             }
-    //             eventTarget.parentElement.children[i].children[1].innerText = elementInput[i].value;
-    //             elementInput[i].value = '';
-    //           }
-    //         }
-    //       }
-    //       isFlag = false;
-    //     } else {
-    //       let resultObject = {};
-    //       for(let i = 0; i < elementInput.length; i++) {
-    //         let definitelyInput = document.getElementsByClassName('inputInfo')[i];
-    //         if(definitelyInput.children.length){
-    //           for(let j = 0; j < definitelyInput.children.length; j++) {
-    //             if(definitelyInput.children[j].checked) {
-    //               resultObject[definitelyInput.children[j].name] = definitelyInput.children[j].value === 'true';
-    //             }
-    //           }
-    //         } else {
-    //           if(elementInput[i].value !== '') {
-    //             if (elementInput[i].placeholder === 'salary' || elementInput[i].placeholder === 'department') {
-    //               resultObject[elementInput[i].placeholder] = Number(elementInput[i].value);
-    //             } else {
-    //               resultObject[elementInput[i].placeholder] = elementInput[i].value;
-    //             }
-    //             elementInput[i].value = '';
-    //           }
-    //         }
-    //       }
-    //       restaurant.employees.push(resultObject);
-    //       createCard();
-    //     }
-    //     popupWindow.style = `display: none`;
-    //   }
-      
-    //   let blockCalculateSalary = document.createElement('div');
-    //   mainBlock.appendChild(blockCalculateSalary);
-    //   blockCalculateSalary.className = 'sumSalary';
-    //   blockCalculateSalary.innerHTML = `
-    //   <div class="buttonSumSalary">calculate salary</div>
-    //   <div class="buttonAverageSalary">average salary</div>
-    //   <div class="buttonMinToMaxSalary">salary min and max</div>
-    //   <div class="buttonAmountEmployee">amount employee</div>
-    //   <p>is works</p>
-    //   <select class="selectIsWorks">
-    //   <option>true</option>
-    //   <option>false</option>
-    //   </select>
-    //   <p>Department</p>
-    //   <select class="selectDepartment">
-    //   <option>1</option>
-    //   <option>2</option>
-    //   <option>3</option>
-    //   </select>
-    //   <div class="resultElement"></div>`;
-    //   document.querySelector('.buttonSumSalary').addEventListener('click', () => {
-    //     for(let i = 0; i < document.querySelector('.resultElement').children.length; i++){
-    //       document.querySelector('.resultElement').children[i].remove();
-    //       i--;
-    //     }
-    //     let isWorksValue = Boolean (document.querySelector('.selectIsWorks').value === 'true');
-    //     let dapartmentValue = Number (document.querySelector('.selectDepartment').value);
-    //     let resultText = document.createElement('p');
-    //     let result = restaurant.sumSalary((item) => item.department === dapartmentValue && item.isWorks === isWorksValue);
-    //     for(let i in result) {
-    //       document.querySelector('.resultElement').appendChild(resultText);
-    //       resultText.innerText = `department ${i} - salary ${result[i]}`;
-    //     }
-    //   })
-    //   document.querySelector('.buttonAverageSalary').addEventListener('click', () => {
-    //     for(let i = 0; i < document.querySelector('.resultElement').children.length; i++){
-    //       document.querySelector('.resultElement').children[i].remove();
-    //       i--;
-    //     }
-    //     let isWorksValue = Boolean (document.querySelector('.selectIsWorks').value === 'true');
-    //     let dapartmentValue = Number (document.querySelector('.selectDepartment').value);
-    //     let resultText = document.createElement('p');
-    //     document.querySelector('.resultElement').appendChild(resultText);
-    //     result = restaurant.averageSalary((item) => item.department === dapartmentValue && item.isWorks === isWorksValue);
-    //     resultText.innerText = `department ${dapartmentValue} - average salary ${result}`;
-    //   })
-    //   document.querySelector('.buttonMinToMaxSalary').addEventListener('click', () => {
-    //     for(let i = 0; i < document.querySelector('.resultElement').children.length; i++){
-    //       document.querySelector('.resultElement').children[i].remove();
-    //       i--;
-    //     }
-    //     let isWorksValue = Boolean (document.querySelector('.selectIsWorks').value === 'true');
-    //     let dapartmentValue = Number (document.querySelector('.selectDepartment').value);
-    //     let result = restaurant.salaryMinToMax((item) => item.department === dapartmentValue && item.isWorks === isWorksValue);
-    //     for(let i in result){
-    //       for(let j in result[i]){
-    //         let resultText = document.createElement('p');
-    //         document.querySelector('.resultElement').appendChild(resultText);
-    //         resultText.innerText = (` ${j}  min - ${result[i][j]['min']}, max - ${result[i][j]['max']}`);
-    //       }
-    //     }
-    //   })
-    //   document.querySelector('.buttonAmountEmployee').addEventListener('click', () => {
-    //     for(let i = 0; i < document.querySelector('.resultElement').children.length; i++){
-    //       document.querySelector('.resultElement').children[i].remove();
-    //       i--;
-    //     }
-    //     let isWorksValue = Boolean (document.querySelector('.selectIsWorks').value === 'true');
-    //     let dapartmentValue = Number (document.querySelector('.selectDepartment').value);
-    //     let resultText = document.createElement('p');
-    //     let result = restaurant.amountEmployee((item) => item.department === dapartmentValue && item.isWorks === isWorksValue);
-    //     resultText.innerText = `department ${dapartmentValue};
-    //     amount employee - ${result}`;
-    //     document.querySelector('.resultElement').appendChild(resultText);
-    //   })
-    
-    
+let bb = new Restaurant()
+    bb.addEmployee(
+  new Employee({
+        name: 'ivan',
+        position: 'cook',
+        isLeader: true,
+        salary: 1000,
+        isWorks: true,
+        department: 1,
+  })
+    )
