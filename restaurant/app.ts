@@ -22,7 +22,6 @@ class Employee {
       this.department = dataEmployee.department;
   }
 }
-
 interface Departments {
   number: number,
   name: string,
@@ -35,22 +34,16 @@ class Department {
       this.name = dataDepartments.name;
   }
 }
-
-
 interface IRestauratn<T>{
   sumSalary(callback: Function): null | {[key: string]: number};
   averageSalary(callback: Function): null | number;
   salaryMinToMax(callback: Function): null | {[key: string]: {[key: string]: {[key: string]: number}}};
   amountEmployee(callback: Function): null | number;
   departmentLeader(callback: Function): null | number[];
-
 }
-
 class Restaurant<P> implements IRestauratn<P> {
-
   employees: Employee[];
   departments: Departments[];
-
   constructor() {
     this.employees = [];
     this.departments = [];
@@ -171,8 +164,8 @@ class Restaurant<P> implements IRestauratn<P> {
     return null;
   }
 }
-
 let restaurant = new Restaurant()
+
 restaurant.addEmployee(new Employee({
   name: 'ivan',
   position: 'cook',
@@ -201,19 +194,7 @@ restaurant.addDepartment(new Department({
   number: 1,
   name: 'cook',
 }))
-//     bb.addEmployee(
-//   new Employee({
-//         name: 'ivan',
-//         position: 'cook',
-//         isLeader: true,
-//         salary: 1000,
-//         isWorks: true,
-//         department: 1,
-//   })
-//     )
-//let mainBlock: HTMLHeadingElement(key: string)
-// let greeter:HTMLElement = document.getElementById("greeter");
-// greeter.innerText = "Hello world!";
+
 let mainBlock = document.querySelector('.mainBlock') as HTMLElement;
 let cardBlock = document.createElement('div');
 let buttonAddCard = document.createElement('div');
