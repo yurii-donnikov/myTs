@@ -233,7 +233,7 @@ class Bank implements IBank {
 
 
 
-
+    
     function createCard(){
       for(let i = 0; i < bank.clients.length; i++){
           if(!clientCard.children[i]){
@@ -290,7 +290,7 @@ class Bank implements IBank {
               clientCard.addEventListener('click', (event) => {
                 let action = ((event.target) as Element).getAttribute('data-function');
                 //let nnn: HTMLElement = this[String(action)]
-                let self = this as HTMLElement;
+                 let self: {[key: string]: any} = window;
                 if(typeof self[String(action)] === 'function'){
                     self[String(action)](event.target);
                 }
@@ -341,6 +341,7 @@ let indexObject = 0;
 function changeCard() {
      
      let childrenPopup = ((document.querySelector('.modalWindow'))as HTMLElement).children;
+     
       
           for(let i = 0; i < childrenPopup.length; i++) {
            
@@ -350,10 +351,11 @@ function changeCard() {
                       newClient.checks[indexObject] = {};
                       newClient.checks[indexObject]['name'] = childrenPopup[i].className;
                       newClient.checks[indexObject]['registration'] = new Date();
-                      updateCheck(childrenPopup[i]);
+                      //let ccc = (childrenPopup[i]) as HTMLInputElement
+                      updateCheck((childrenPopup[i]) as HTMLInputElement);
                       indexObject++;
                   } else {
-                      updateCheck(childrenPopup[i]);
+                      updateCheck((childrenPopup[i]) as HTMLInputElement);
                   }
               } else {
                   if(((childrenPopup[i])as HTMLInputElement).type === 'radio'){
@@ -362,8 +364,12 @@ function changeCard() {
                           newClient[name] = ((childrenPopup[i])as HTMLInputElement).checked;
                       } 
                       else {
-                          bank.clients[indexActiveCard][name] = ((childrenPopup[i]) as HTMLInputElement).checked;
-                          document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[indexActiveCard].innerText = ((childrenPopup[i])as HTMLInputElement).checked;
+                        //   let bb = bank.clients
+                        //   let dd = bb as keyof Client[]
+                          let dd: Client[] = bank.clients 
+                         
+                          dd[indexActiveCard][name] = ((childrenPopup[i]) as HTMLInputElement).checked;
+                          document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[indexActiveCard].innerText = ((childrenPopup[i])as Element).checked;
                       }
                       ((childrenPopup[i])as HTMLInputElement).checked = false;
                   } else {
