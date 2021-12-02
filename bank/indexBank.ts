@@ -366,7 +366,7 @@
 interface Clients {
   name: string;
   isActive: boolean;
-  registration: string;
+  registration: object;
   id ? : number;
   checks: account[];
 }
@@ -394,7 +394,7 @@ interface Credit {
 class Client {
   name: string;
   isActive: boolean;
-  registration: string;
+  registration: object;
   id ? : number;
   checks: account[];
   constructor(dataClient: Clients) {
@@ -506,7 +506,7 @@ let bank = new Bank()
 bank.addClient(new Client({
   name: 'qwe',
   isActive: true,
-  registration: 'qwe',
+  registration: new Date(),
   checks: [{
       name: 'Debet',
       balance: 1000,
@@ -528,7 +528,7 @@ bank.addClient(new Client({
 bank.addClient(new Client({
   name: 'asd',
   isActive: true,
-  registration: 'zxc',
+  registration: new Date(),
   checks: [{
       name: 'Debet',
       balance: 1000,
@@ -556,6 +556,8 @@ class Render {
   buttonDelete?: HTMLElement;
   indexActiveCard?: number;
   isFlag?: boolean;
+  indexObject?: number = 0;
+  newClient?: { [key: string]: string | number | boolean | object | account[]} = {};
 
   // clientCard = document.querySelector('.cardBlock') as HTMLElement;
   blockProperty?: HTMLElement
@@ -722,6 +724,132 @@ class Render {
       }
     }
   }
+
+
+
+
+
+  
+  changeCard() {
+    
+      let childrenPopup = document.querySelector('.modalWindow').children;
+          for(let i = 0; i < childrenPopup.length; i++) {
+              if(childrenPopup[i].className === 'Debet' || childrenPopup[i].className === 'Credit'){
+                  if(this.isFlag){
+                      // newClient.checks[indexObject] = {};
+                      this.newClient.checks[this.indexObject]['name'] = childrenPopup[i].className;
+                      this.newClient.checks[this.indexObject]['registration'] = new Date();
+                      //updateCheck(childrenPopup[i]);
+                      this.indexObject++;
+                  } else {
+                      //updateCheck(childrenPopup[i]);
+                  }
+              } else {
+                  if(((childrenPopup[i])as HTMLInputElement).type === 'radio'){
+                      let name = childrenPopup[i].className;
+                      if(this.isFlag){
+                          this.newClient[name] = ((childrenPopup[i])as HTMLInputElement).checked;
+                      } 
+                      else {
+                          bank.clients[this.indexActiveCard][name] = ((childrenPopup[i])as HTMLInputElement).checked;
+                          ((document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[this.indexActiveCard])).innerText = ((childrenPopup[i])as HTMLInputElement).checked;
+                      }
+                      ((childrenPopup[i])as HTMLInputElement).checked = false;
+                  } else {
+                      if(((childrenPopup[i])as HTMLInputElement).value) {
+                          let name = childrenPopup[i].className;
+                          if(this.isFlag){
+                              this.newClient[name] = ((childrenPopup[i])as HTMLInputElement).value;
+                              this.newClient['registration'] = new Date();
+                          } else{
+                              bank.clients[this.indexActiveCard]['name'] = ((childrenPopup[i])as HTMLInputElement).value;
+                              document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[this.indexActiveCard].innerText = ((childrenPopup[i])as HTMLInputElement).value;
+                          }
+                          ((childrenPopup[i])as HTMLInputElement).value = '';
+                      }
+                  }
+              }
+          }
+      
+//       function updateCheck(itemСheck){
+//           if(isFlag){
+//               for(let i = 0; i < itemСheck.children.length; i++){
+//                   if(itemСheck.children[i].type === 'radio'){
+//                       let name = itemСheck.children[i].className;
+//                       newClient.checks[indexObject][name] = itemСheck.children[i].checked;
+//                       itemСheck.children[i].checked = false;
+//                   } 
+//                   else {
+//                       if(itemСheck.children[i].value) {
+//                           if(itemСheck.children[i].valueAsNumber) {
+//                               let name = itemСheck.children[i].className;
+//                               newClient.checks[indexObject][name] = itemСheck.children[i].valueAsNumber;
+//                               itemСheck.children[i].valueAsNumber = undefined;
+//                           } else {
+//                               let name = itemСheck.children[i].className;
+//                               newClient.checks[indexObject][name] = itemСheck.children[i].value;
+//                           }
+//                       }
+//                   }
+//               } 
+//           } else {
+//               for(let i = 0; i < bank.clients[indexActiveCard].checks.length; i++){
+//                   if(bank.clients[indexActiveCard].checks[i].name === itemСheck.className){
+//                       for(let j = 0; j < itemСheck.children.length; j++) {
+//                           if(itemСheck.children[j].type === 'radio'){
+//                               let nameClass = itemСheck.children[j].className;
+//                               bank.clients[indexActiveCard].checks[i][nameClass] = itemСheck.children[j].checked;
+//                               document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[indexActiveCard].innerText = 
+//                               itemСheck.children[j].checked;
+//                               itemСheck.children[j].checked = false;
+//                           } else {
+//                               if(itemСheck.children[j].value) {
+//                                   if(itemСheck.children[j].valueAsNumber) {
+//                                       let nameClass = itemСheck.children[j].className;
+//                                       bank.clients[indexActiveCard].checks[i][nameClass] = itemСheck.children[j].valueAsNumber;
+//                                       document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[indexActiveCard].innerText = 
+//                                       itemСheck.children[j].valueAsNumber;
+//                                       itemСheck.children[j].valueAsNumber = undefined;
+//                                   } else {
+//                                       let nameClass = itemСheck.children[j].className;
+//                                       bank.clients[indexActiveCard].checks[i][nameClass] = itemСheck.children[j].value;
+//                                       document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[indexActiveCard].innerText = 
+//                                       itemСheck.children[j].value;
+//                                   }
+//                               }
+//                           }
+//                       }
+//                   }
+//               }
+//           }
+//       }
+//       if(isFlag) {
+//           bank.clients.push(newClient);
+//           isFlag = false;
+//           newClient = {checks: [],};
+//           indexObject = 0;
+//           createCard();
+//       }
+//       document.querySelector('.popupWindow').style = 'display: none';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   //func() {}
 }
