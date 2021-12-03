@@ -368,7 +368,6 @@ var transponentMatrix = function () {
         if (cache[String(matrix)]) {
             return cache[String(matrix)];
         }
-        ;
         result = result || [];
         index = index || 0;
         index2 = index2 || 0;

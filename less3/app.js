@@ -1,10 +1,3 @@
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _BinaryNode_value, _BinaryNode_left, _BinaryNode_right;
 Array.prototype.sortSelection = function (callback) {
     var array = this;
     for (var i = 0; i < array.length; i++) {
@@ -37,14 +30,116 @@ Array.prototype.sortBubble = function (callback) {
 };
 var BinaryNode = /** @class */ (function () {
     function BinaryNode() {
-        _BinaryNode_value.set(this, void 0);
-        _BinaryNode_left.set(this, void 0);
-        _BinaryNode_right.set(this, void 0);
-        __classPrivateFieldSet(this, _BinaryNode_value, null, "f");
-        __classPrivateFieldSet(this, _BinaryNode_left, null, "f");
-        __classPrivateFieldSet(this, _BinaryNode_right, null, "f");
+        this.value = null;
+        this.right = null;
+        this.left = null;
     }
-    ;
+    BinaryNode.prototype.insert = function (value, node) {
+        node = node || this;
+        if (!node.value) {
+            node.value = value;
+            return true;
+        }
+        if (value > node.value) {
+            if (node.right === null) {
+                node.right = new BinaryNode();
+            }
+            return this.insert(value, node.right);
+        }
+        if (node.value > value) {
+            if (node.left === null) {
+                node.left = new BinaryNode();
+            }
+            return this.insert(value, node.left);
+        }
+    };
+    BinaryNode.prototype.search = function (value, node) {
+        node = node || this;
+        if (arguments[0] === undefined) {
+            return null;
+        }
+        if (node.value === value) {
+            return node.value;
+        }
+        if (node.value && node.value > value) {
+            if (node.left === null) {
+                return null;
+            }
+            return this.search(value, node.left);
+        }
+        if (node.value && node.value < value) {
+            if (node.right === null) {
+                return null;
+            }
+            return this.search(value, node.right);
+        }
+        return null;
+    };
+    BinaryNode.prototype.remove = function (value, node, linkParent, flag) {
+        if (arguments[0] === undefined) {
+            return null;
+        }
+        if (!this.search(value)) {
+            return null;
+        }
+        node = node || this;
+        linkParent = linkParent || this;
+        flag = flag || false;
+        if (flag) {
+            if (node.right !== null) {
+                return this.remove(value, node.right, node, flag);
+            }
+            else {
+                linkParent.right = null;
+                return node.value;
+            }
+        }
+        if (node.value === value) {
+            if (node.left === null && node.right === null) {
+                if (linkParent.left && linkParent.left.value === node.value) {
+                    linkParent.left = null;
+                }
+                else {
+                    linkParent.right = null;
+                }
+            }
+            if (node.left === null && node.right) {
+                node.value = node.right.value;
+                node.right = node.right.right;
+            }
+            if (node.left && node.right === null) {
+                node.value = node.left.value;
+                node.left = node.left.left;
+            }
+            if (node.left && node.right) {
+                if (node.left.right) {
+                    flag = true;
+                    Object.defineProperty(node, 'value', {
+                        enumerable: false,
+                        writable: false,
+                        configurable: false,
+                        value: this.remove(value, node.left, node, flag)
+                    });
+                    flag = false;
+                }
+                else {
+                    node.value = node.left.value;
+                    node.left = node.left.left;
+                }
+            }
+        }
+        else {
+            if (node.value && node.value < value) {
+                if (node.right !== null) {
+                    return this.remove(value, node.right, node, flag);
+                }
+            }
+            if (node.value && node.value > value) {
+                if (node.left !== null) {
+                    return this.remove(value, node.left, node, flag);
+                }
+            }
+        }
+    };
     return BinaryNode;
 }());
-_BinaryNode_value = new WeakMap(), _BinaryNode_left = new WeakMap(), _BinaryNode_right = new WeakMap();

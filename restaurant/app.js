@@ -165,19 +165,6 @@ restaurant.addDepartment(new Department({
     number: 1,
     name: 'cook'
 }));
-//     bb.addEmployee(
-//   new Employee({
-//         name: 'ivan',
-//         position: 'cook',
-//         isLeader: true,
-//         salary: 1000,
-//         isWorks: true,
-//         department: 1,
-//   })
-//     )
-//let mainBlock: HTMLHeadingElement(key: string)
-// let greeter:HTMLElement = document.getElementById("greeter");
-// greeter.innerText = "Hello world!";
 var mainBlock = document.querySelector('.mainBlock');
 var cardBlock = document.createElement('div');
 var buttonAddCard = document.createElement('div');
@@ -186,12 +173,12 @@ buttonAddCard.innerText = 'add card';
 cardBlock.className = 'cardBlock';
 mainBlock.appendChild(cardBlock);
 mainBlock.appendChild(buttonAddCard);
+var eventTarget;
 var changeEmployee;
 var employeeCard;
 var itemBlockInfo;
 var employeeInfo;
 var employeeProperty;
-var eventTarget;
 var buttonDelete;
 var isFlag = false;
 var popupWindow = mainBlock.appendChild(document.createElement('div'));
@@ -199,11 +186,7 @@ popupWindow.className = 'popupWindow';
 var backgroundWindow = popupWindow.appendChild(document.createElement('div'));
 backgroundWindow.className = 'backgroundWindow';
 backgroundWindow.addEventListener('click', function () {
-    // for(let i = 0; i < document.getElementsByClassName('inputInfo').length; i++){
-    //   document.getElementsByClassName('inputInfo')[i].value = '';
-    // }
     isFlag = false;
-    //popupWindow.style = `display: none`;
     popupWindow.setAttribute('style', 'display: none');
 });
 var modalWindow = popupWindow.appendChild(document.createElement('div'));
@@ -286,7 +269,6 @@ function createCard() {
 createCard();
 buttonAddCard.addEventListener('click', function () {
     popupWindow.setAttribute('style', 'display: block');
-    //popupWindow.style = `display: block`;
 });
 buttonSave.addEventListener('click', function () {
     changeCard();
@@ -325,7 +307,6 @@ function changeCard() {
     }
     else {
         var resultObject = {};
-        //let resultObject = {};
         for (var i = 0; i < elementInput.length; i++) {
             var definitelyInput = document.getElementsByClassName('inputInfo')[i];
             if (definitelyInput.children.length) {

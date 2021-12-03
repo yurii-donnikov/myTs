@@ -1,11 +1,3 @@
-// interface Clients {
-//   name: string;
-//   isActive: boolean;
-//   registration: string;
-//   id ? : number;
-//   checks: account[];
-// }
-// type account = Credit | Debet;
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -167,7 +159,7 @@ var Bank = /** @class */ (function () {
 }());
 var bank = new Bank();
 bank.addClient(new Client({
-    name: 'qwe',
+    name: 'anna',
     isActive: true,
     registration: new Date(),
     checks: [{
@@ -188,7 +180,7 @@ bank.addClient(new Client({
     ]
 }));
 bank.addClient(new Client({
-    name: 'asd',
+    name: 'maks',
     isActive: true,
     registration: new Date(),
     checks: [{
@@ -208,22 +200,36 @@ bank.addClient(new Client({
         },
     ]
 }));
-var as;
+bank.addClient(new Client({
+    name: 'ivan',
+    isActive: true,
+    registration: new Date(),
+    checks: [{
+            name: 'Debet',
+            balance: 1000,
+            isActive: true,
+            activeData: 'qwe',
+            currency: 'UAH'
+        },
+        {
+            name: 'Credit',
+            balance: 1000,
+            limit: 1000,
+            isActive: true,
+            activeData: 'asd',
+            currency: 'UAH'
+        },
+    ]
+}));
 var Render = /** @class */ (function () {
-    // bankCalculation: Bank;
-    // modal: HTMLElement;
-    // counter: number;
     function Render(container) {
+        this.indexActiveCard = 0;
+        this.isFlag = false;
         this.indexObject = 0;
         this.newClient = {};
         this.mainBlock = document.querySelector(container);
         this.createStartInterface(this.mainBlock);
         this.createCard();
-        //this.clientCard = 
-        // this.mainRender(this.root);
-        // this.modal = this.createModal();
-        // this.root.append(this.modal);
-        // this.counter = 0;
     }
     Render.prototype.createStartInterface = function (container) {
         var _this = this;
@@ -237,6 +243,7 @@ var Render = /** @class */ (function () {
             (document.querySelector('.popupWindow')).setAttribute('style', 'display: none');
         });
         (document.querySelector('.buttonSave')).addEventListener('click', function () {
+            _this.changeCard();
             (document.querySelector('.popupWindow')).setAttribute('style', 'display: none');
         });
     };
@@ -245,27 +252,14 @@ var Render = /** @class */ (function () {
         for (var i = 0; i < bank.clients.length; i++) {
             bank.clients[i]['id'] = i;
             this.cardBlock = document.querySelector('.cardBlock');
-            // console.log(this.clientCard.children)
-            // console.log(this.clientCard)
-            // qw = this.clientCard.children
-            // console.log(!this.clientCard.children[i])
-            // if (!this.clientCard.children[i]) {
-            //   console.log(123456)
-            // }
             if (!this.cardBlock.children[i]) {
-                //console.log(this.clientCard.children[i])
-                // // as = this.clientCard.children[i]
-                //this.clientCard = document.querySelector('.cardBlock').children[i];
                 var objectClient = bank.clients[i];
                 this.clientCard = this.cardBlock.appendChild(document.createElement('div'));
                 this.clientCard.classList.add("clientCard");
-                // this.clientCard.setAttribute('data-id', String(bank.clients[i]['id']));
                 this.clientCard.setAttribute('data-id', String(i));
-                //console.log(objectClient)
                 for (var property in objectClient) {
                     var prop = property;
                     if (property === 'checks') {
-                        //console.log('asdf')
                         for (var i_1 = 0; i_1 < objectClient[property].length; i_1++) {
                             var blockCheck = this.clientCard.appendChild(document.createElement('div'));
                             blockCheck.className = "blockCheck";
@@ -295,17 +289,9 @@ var Render = /** @class */ (function () {
                 this.buttonDelete.className = 'buttonDelete';
                 this.buttonDelete.setAttribute('data-function', 'deleteUser');
                 this.buttonDelete.setAttribute('data-update', String(bank.clients[i]['id']));
-                // this.clientCard.addEventListener('click', (event) => {
-                //   let action = ((event.target) as Element).getAttribute('data-function');
-                //   if (typeof this[action] === 'function') {
-                //     this[action](event.target);
-                //   }
-                // })
                 this.clientCard.addEventListener('click', function (event) {
-                    // console.log(this)
                     var action = (event.target).getAttribute('data-function');
                     var self = _this;
-                    qw = self;
                     if (typeof self[String(action)] === 'function') {
                         self[String(action)](event.target);
                     }
@@ -331,106 +317,114 @@ var Render = /** @class */ (function () {
         }
     };
     Render.prototype.changeCard = function () {
-        // let childrenPopup = document.querySelector('.modalWindow').children;
-        //     for(let i = 0; i < childrenPopup.length; i++) {
-        //         if(childrenPopup[i].className === 'Debet' || childrenPopup[i].className === 'Credit'){
-        //             if(this.isFlag){
-        //                 // newClient.checks[indexObject] = {};
-        //                 this.newClient.checks[this.indexObject]['name'] = childrenPopup[i].className;
-        //                 newClient.checks[indexObject]['registration'] = new Date();
-        //                 updateCheck(childrenPopup[i]);
-        //                 indexObject++;
-        //             } else {
-        //                 updateCheck(childrenPopup[i]);
-        //             }
-        //         } else {
-        //             if(childrenPopup[i].type === 'radio'){
-        //                 let name = childrenPopup[i].className;
-        //                 if(isFlag){
-        //                     newClient[name] = childrenPopup[i].checked;
-        //                 } 
-        //                 else {
-        //                     bank.clients[indexActiveCard][name] = childrenPopup[i].checked;
-        //                     document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[indexActiveCard].innerText = childrenPopup[i].checked;
-        //                 }
-        //                 childrenPopup[i].checked = false;
-        //             } else {
-        //                 if(childrenPopup[i].value) {
-        //                     let name = childrenPopup[i].className;
-        //                     if(isFlag){
-        //                         newClient[name] = childrenPopup[i].value;
-        //                         newClient['registration'] = new Date();
-        //                     } else{
-        //                         bank.clients[indexActiveCard]['name'] = childrenPopup[i].value;
-        //                         document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[indexActiveCard].innerText = childrenPopup[i].value;
-        //                     }
-        //                     childrenPopup[i].value = '';
-        //                 }
-        //             }
-        //         }
-        //     }
-        //       function updateCheck(itemСheck){
-        //           if(isFlag){
-        //               for(let i = 0; i < itemСheck.children.length; i++){
-        //                   if(itemСheck.children[i].type === 'radio'){
-        //                       let name = itemСheck.children[i].className;
-        //                       newClient.checks[indexObject][name] = itemСheck.children[i].checked;
-        //                       itemСheck.children[i].checked = false;
-        //                   } 
-        //                   else {
-        //                       if(itemСheck.children[i].value) {
-        //                           if(itemСheck.children[i].valueAsNumber) {
-        //                               let name = itemСheck.children[i].className;
-        //                               newClient.checks[indexObject][name] = itemСheck.children[i].valueAsNumber;
-        //                               itemСheck.children[i].valueAsNumber = undefined;
-        //                           } else {
-        //                               let name = itemСheck.children[i].className;
-        //                               newClient.checks[indexObject][name] = itemСheck.children[i].value;
-        //                           }
-        //                       }
-        //                   }
-        //               } 
-        //           } else {
-        //               for(let i = 0; i < bank.clients[indexActiveCard].checks.length; i++){
-        //                   if(bank.clients[indexActiveCard].checks[i].name === itemСheck.className){
-        //                       for(let j = 0; j < itemСheck.children.length; j++) {
-        //                           if(itemСheck.children[j].type === 'radio'){
-        //                               let nameClass = itemСheck.children[j].className;
-        //                               bank.clients[indexActiveCard].checks[i][nameClass] = itemСheck.children[j].checked;
-        //                               document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[indexActiveCard].innerText = 
-        //                               itemСheck.children[j].checked;
-        //                               itemСheck.children[j].checked = false;
-        //                           } else {
-        //                               if(itemСheck.children[j].value) {
-        //                                   if(itemСheck.children[j].valueAsNumber) {
-        //                                       let nameClass = itemСheck.children[j].className;
-        //                                       bank.clients[indexActiveCard].checks[i][nameClass] = itemСheck.children[j].valueAsNumber;
-        //                                       document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[indexActiveCard].innerText = 
-        //                                       itemСheck.children[j].valueAsNumber;
-        //                                       itemСheck.children[j].valueAsNumber = undefined;
-        //                                   } else {
-        //                                       let nameClass = itemСheck.children[j].className;
-        //                                       bank.clients[indexActiveCard].checks[i][nameClass] = itemСheck.children[j].value;
-        //                                       document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[indexActiveCard].innerText = 
-        //                                       itemСheck.children[j].value;
-        //                                   }
-        //                               }
-        //                           }
-        //                       }
-        //                   }
-        //               }
-        //           }
-        //       }
-        //       if(isFlag) {
-        //           bank.clients.push(newClient);
-        //           isFlag = false;
-        //           newClient = {checks: [],};
-        //           indexObject = 0;
-        //           createCard();
-        //       }
-        //       document.querySelector('.popupWindow').style = 'display: none';
+        var childrenPopup = document.querySelector('.modalWindow').children;
+        for (var i = 0; i < childrenPopup.length; i++) {
+            if (childrenPopup[i].className === 'Debet' || childrenPopup[i].className === 'Credit') {
+                if (this.isFlag) {
+                    this.newClient.checks = [];
+                    this.newClient.checks[this.indexObject] = {};
+                    this.newClient.checks[this.indexObject]['name'] = childrenPopup[i].className;
+                    updateCheck(childrenPopup[i], this.indexObject, this.isFlag, this.newClient);
+                }
+                else {
+                    updateCheck(childrenPopup[i], this.indexActiveCard, this.isFlag, this.newClient);
+                }
+            }
+            else {
+                if ((childrenPopup[i]).type === 'radio') {
+                    var name_1 = childrenPopup[i].className;
+                    if (this.isFlag) {
+                        this.newClient[name_1] = (childrenPopup[i]).checked;
+                    }
+                    else {
+                        bank.clients[this.indexActiveCard][name_1] = (childrenPopup[i]).checked;
+                        document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[this.indexActiveCard].innerHTML = String((childrenPopup[i]).checked);
+                    }
+                    (childrenPopup[i]).checked = false;
+                }
+                else {
+                    if ((childrenPopup[i]).value) {
+                        var name_2 = childrenPopup[i].className;
+                        if (this.isFlag) {
+                            this.newClient[name_2] = (childrenPopup[i]).value;
+                            this.newClient['registration'] = new Date();
+                        }
+                        else {
+                            bank.clients[this.indexActiveCard]['name'] = (childrenPopup[i]).value;
+                            document.getElementsByClassName(childrenPopup[i].getAttribute('data-id'))[this.indexActiveCard].innerHTML = (childrenPopup[i]).value;
+                        }
+                        (childrenPopup[i]).value = '';
+                    }
+                }
+            }
+        }
+        function updateCheck(itemСheck, index, flag, copyNewClient) {
+            if (flag) {
+                for (var i = 0; i < itemСheck.children.length; i++) {
+                    if ((itemСheck.children[i]).type === 'radio') {
+                        var name_3 = itemСheck.children[i].className;
+                        copyNewClient.checks[index][name_3] = (itemСheck.children[i]).checked;
+                    }
+                    else {
+                        if ((itemСheck.children[i]).value) {
+                            if ((itemСheck.children[i]).valueAsNumber) {
+                                var name_4 = itemСheck.children[i].className;
+                                copyNewClient.checks[index][name_4] = (itemСheck.children[i]).valueAsNumber;
+                            }
+                            else {
+                                var name_5 = itemСheck.children[i].className;
+                                copyNewClient.checks[index][name_5] = (itemСheck.children[i]).value;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < bank.clients[index].checks.length; i++) {
+                    if (bank.clients[index].checks[i].name === itemСheck.className) {
+                        for (var j = 0; j < itemСheck.children.length; j++) {
+                            if ((itemСheck.children[j]).type === 'radio') {
+                                var nameClass = itemСheck.children[j].className;
+                                bank.clients[index].checks[i][nameClass] = (itemСheck.children[j]).checked;
+                                document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[index].innerHTML =
+                                    String((itemСheck.children[j]).checked);
+                                (itemСheck.children[j]).checked = false;
+                            }
+                            else {
+                                if ((itemСheck.children[j]).value) {
+                                    if ((itemСheck.children[j]).valueAsNumber) {
+                                        var nameClass = itemСheck.children[j].className;
+                                        bank.clients[index].checks[i][nameClass] = (itemСheck.children[j]).valueAsNumber;
+                                        document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[index].innerHTML =
+                                            String((itemСheck.children[j]).valueAsNumber);
+                                        (itemСheck.children[j]).valueAsNumber = undefined;
+                                    }
+                                    else {
+                                        var nameClass = itemСheck.children[j].className;
+                                        bank.clients[index].checks[i][nameClass] = (itemСheck.children[j]).value;
+                                        document.getElementsByClassName(itemСheck.children[j].getAttribute('data-id'))[index].innerHTML =
+                                            (itemСheck.children[j]).value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            this.newClient = copyNewClient;
+        }
+        if (this.isFlag) {
+            this.addNewClient = this.newClient;
+            bank.addClient(new Client(this.addNewClient));
+            this.isFlag = false;
+            this.newClient = {
+                checks: []
+            };
+            this.indexObject = 0;
+            this.createCard();
+        }
+        (document.querySelector('.popupWindow')).setAttribute('style', 'display: none');
     };
     return Render;
 }());
-var qw;
 var render = new Render('.mainBlock');
