@@ -1,10 +1,10 @@
 interface Employees {
   name: string,
-    position: string,
-    isLeader: boolean,
-    salary: number,
-    isWorks: boolean,
-    department: number,
+  position: string,
+  isLeader: boolean,
+  salary: number,
+  isWorks: boolean,
+  department: number,
 }
 
 class Employee {
