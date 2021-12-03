@@ -12,7 +12,6 @@ interface Debet {
   name: 'Debet';
   balance: number;
   isActive: boolean;
-  activeData: string;
   currency: string;
 }
 
@@ -21,7 +20,6 @@ interface Credit {
   balance: number;
   limit: number;
   isActive: boolean;
-  activeData: string;
   currency: string;
 }
 
@@ -142,7 +140,6 @@ bank.addClient(new Client({
       name: 'Debet',
       balance: 1000,
       isActive: true,
-      activeData: 'qwe',
       currency: 'UAH',
     },
     {
@@ -150,7 +147,6 @@ bank.addClient(new Client({
       balance: 1000,
       limit: 1000,
       isActive: true,
-      activeData: 'asd',
       currency: 'UAH',
     },
   ],
@@ -164,7 +160,6 @@ bank.addClient(new Client({
       name: 'Debet',
       balance: 1000,
       isActive: true,
-      activeData: 'qwe',
       currency: 'UAH',
     },
     {
@@ -172,7 +167,6 @@ bank.addClient(new Client({
       balance: 1000,
       limit: 1000,
       isActive: true,
-      activeData: 'asd',
       currency: 'UAH',
     },
   ],
@@ -185,7 +179,6 @@ bank.addClient(new Client({
       name: 'Debet',
       balance: 1000,
       isActive: true,
-      activeData: 'qwe',
       currency: 'UAH',
     },
     {
@@ -193,7 +186,6 @@ bank.addClient(new Client({
       balance: 1000,
       limit: 1000,
       isActive: true,
-      activeData: 'asd',
       currency: 'UAH',
     },
   ],
@@ -209,7 +201,7 @@ class Render {
   isFlag ? : boolean = false;
   indexObject ? : number = 0;
   newClient ? : {
-    [key: string]: string | number | boolean | object | account[] | 'checks'[]
+    [key: string]: string | number | boolean | object | account[] | 'checks' []
   } = {};
   addNewClient ? : any;
   blockProperty ? : HTMLElement;
@@ -347,10 +339,14 @@ class Render {
     for (let i = 0; i < childrenPopup.length; i++) {
       if (childrenPopup[i].className === 'Debet' || childrenPopup[i].className === 'Credit') {
         if (this.isFlag) {
-          this.newClient.checks = [];
+          if (!this.newClient.checks) {
+            this.newClient.checks = [];
+          }
           this.newClient.checks[this.indexObject] = {};
           this.newClient.checks[this.indexObject]['name'] = childrenPopup[i].className;
+          this.newClient.checks[this.indexObject]['name'] = childrenPopup[i].className;
           updateCheck(childrenPopup[i] as HTMLElement, this.indexObject, this.isFlag, this.newClient);
+          this.indexObject++;
         } else {
           updateCheck(childrenPopup[i] as HTMLElement, this.indexActiveCard, this.isFlag, this.newClient);
         }
@@ -383,6 +379,7 @@ class Render {
     function updateCheck(itemСheck: HTMLElement, index: number, flag: boolean, copyNewClient: {
       [key: string]: any
     }) {
+
       if (flag) {
         for (let i = 0; i < itemСheck.children.length; i++) {
           if (((itemСheck.children[i]) as HTMLInputElement).type === 'radio') {
@@ -400,6 +397,7 @@ class Render {
             }
           }
         }
+
       } else {
         for (let i = 0; i < bank.clients[index].checks.length; i++) {
           if (bank.clients[index].checks[i].name === itemСheck.className) {
@@ -432,9 +430,10 @@ class Render {
       }
       this.newClient = copyNewClient;
     }
+    
     if (this.isFlag) {
       this.addNewClient = this.newClient;
-      bank.addClient(new Client(this.addNewClient))
+      bank.addClient(new Client(this.addNewClient));
       this.isFlag = false;
       this.newClient = {
         checks: [],
@@ -445,4 +444,4 @@ class Render {
     ((document.querySelector('.popupWindow')) as HTMLElement).setAttribute('style', 'display: none');
   }
 }
-let render = new Render('.mainBlock')
+let render = new Render('.mainBlock');
